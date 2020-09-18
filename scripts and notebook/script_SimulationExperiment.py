@@ -14,10 +14,10 @@ import numpy as np
 import pandas as pd
 import pybik
 
-S      = 450                    # nr of simulations
+S      = 1000                   # nr of simulations
 sigmas = np.array([.2, 1., 2.]) # noise SD levels (mm)
 
-np.random.seed( 3 )
+np.random.seed( 0 )
 err   = np.zeros( (S*len(sigmas), 12) )
 times = np.zeros( (S*len(sigmas), 8) )
 k     = 0
@@ -27,21 +27,21 @@ for i in range(len(sigmas)):
         ## initial marker positions (mm)
         sz = np.random.uniform(75, 150)  # size of markerplate
         d  = np.random.uniform(100, 400) # distance from origin
-        q0 = np.array([[sz,0.,d],[-sz,0.,d],[0.,sz,d],[0.,-sz,d]])
-        q0 = pybik.MarkerCluster( q0 )
+        r0 = np.array([[sz,0.,d],[-sz,0.,d],[0.,sz,d],[0.,-sz,d]])
+        r0 = pybik.MarkerCluster( r0 )
 
         ## true motion
         theta = np.random.uniform(0, np.pi)
         r     = pybik.random.rotation3( theta )
-        q1    = pybik.MarkerCluster( r.apply( q0.toarray() ) )
+        r1    = pybik.MarkerCluster( r.apply( r0.toarray() ) )
             
         ## add noise (mm)
         sigma = sigmas[i]
-        q0n   = q0.add_noise(sigma)
-        q1n   = q1.add_noise(sigma)
+        r0n   = r0.add_noise(sigma)
+        r1n   = r1.add_noise(sigma)
             
         ## LS-IK + (V)BIK
-        model = pybik.mechanisms.rotation3(q0n, q1n, sigma)
+        model = pybik.mechanisms.rotation3(r0n, r1n, sigma)
         t0 = time(); r_ls_svd = model.ik_svd();           times[k,0] = time() - t0
         t0 = time(); r_lsquat = model.ik_ls_quat();       times[k,1] = time() - t0
         t0 = time(); r_nlls   = model.ik_nlls();          times[k,2] = time() - t0
