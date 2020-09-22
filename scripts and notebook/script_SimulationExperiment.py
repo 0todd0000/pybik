@@ -4,6 +4,10 @@
 Created on Thu Jul 16 13:31:52 2020
 
 @author: ben
+
+WARNING!
+This script takes a long time to complete: easily
+more than 24 hours, even on a fast PC.
 """
 # =============================================================================
 # simulations: rotation3
