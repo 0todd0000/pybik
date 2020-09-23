@@ -7,7 +7,7 @@ Created on Thu Jul 16 09:36:37 2020
 """
 
 from scipy.spatial.transform import Rotation as Rot
-from . import directional as dr
+import directional as dr
 
 
 # =============================================================================

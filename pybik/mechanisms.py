@@ -7,7 +7,7 @@ Created on Thu Jul 16 10:03:23 2020
 """
 
 from scipy.spatial.transform import Rotation as Rot
-from . import directional as dr
+import directional as dr
 from . import lsik
 from . import vbik
 import pymc as pm
