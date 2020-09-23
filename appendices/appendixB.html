@@ -13084,8 +13084,8 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this appendix, we demonstrate the use of the <strong>pybik</strong> package for doing IK simulations. See the main paper for performance of the different methods and Appendix A for details on the mathematics and statistics. It requires the following packages to be installed: <strong>numpy</strong>, <strong>scipy</strong> and <strong>pymc2</strong>. The first two come pre-installed with most python distributions like Anaconda. The last can be installed from the instructions given here:
-<a href="https://pymc-devs.github.io/pymc/">https://pymc-devs.github.io/pymc/</a> The <strong>pybik</strong> package was developed and tested on the following system: Python 3.7.7 (Anaconda 1.9.12), Numpy 1.19.1, Scipy 1.5.2, PyMC 2.3.8. The Anaconda environment file can be found in the repository. It was tested on Linux and Mac.</p>
+<p>In this appendix, we demonstrate the use of the <strong>pybik</strong> package for doing IK simulations. See the main paper for performance of the different methods and Appendix A for details on the mathematics and statistics. It requires the following packages to be installed: <strong>numpy</strong>, <strong>scipy</strong> and <strong>pymc2</strong>. The first two come pre-installed with python distributions like Anaconda. The last can be installed from the instructions given here:
+<a href="https://pymc-devs.github.io/pymc/">https://pymc-devs.github.io/pymc/</a>. The <strong>directional</strong> module is translated to python from the R package Directional (<a href="https://cran.r-project.org/package=Directional">https://cran.r-project.org/package=Directional</a>) and can be found here: <a href="https://github.com/0todd0000/PyDirectional">https://github.com/0todd0000/PyDirectional</a>. The <strong>pybik</strong> package was developed and tested on the following system: Python 3.7.7 (Anaconda 1.9.12), Numpy 1.19.1, Scipy 1.5.2, PyMC 2.3.8. The Anaconda environment file can be found in the repository. It was tested on Linux, Mac and Windows.</p>
 
 </div>
 </div>
@@ -13093,7 +13093,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Set-up">Set-up<a class="anchor-link" href="#Set-up">&#182;</a></h2><p>Import the packages and set a seed for the random number generator for replication purposes.</p>
+<h2 id="Set-up">Set-up<a class="anchor-link" href="#Set-up">&#182;</a></h2><p>Import the packages and set a seed for the RNG for replication purposes.</p>
 
 </div>
 </div>
@@ -13138,7 +13138,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We simulate a random rotation <code>r</code> that we treat as the 'true' rotation. We only specify the rotation magnitude (<em>theta</em>), the rotation direction is random. The final coordinates <code>r1</code> are then calculated by applying the rotation to the initial coordinates.</p>
+<p>We simulate a random rotation <code>r</code> that we treat as the 'true' rotation. We only specify the rotation magnitude <code>theta</code>, the rotation direction is random. The final coordinates <code>r1</code> are then calculated by applying the rotation to the initial coordinates.</p>
 
 </div>
 </div>
@@ -13215,7 +13215,7 @@ ZXY Cardan angles:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now we add i.i.d. uncorrelated and isotropic Gaussian noise with standard deviation <code>sigma</code> to the true marker coordinates. The noisy "measured" coordinates (<code>r0n</code>, <code>r1n</code>) are used for IK.</p>
+<p>Now we add i.i.d. uncorrelated and isotropic Gaussian noise with standard deviation <code>sigma</code> to the true marker coordinates. The noisy "measured" coordinates (<code>r0n, r1n</code>) are used for IK.</p>
 
 </div>
 </div>
@@ -13238,7 +13238,7 @@ ZXY Cardan angles:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The noisy marker coordinates are entered in a IK mechanism object. The true value of <em>sigma</em> is entered as well which is used for initiating the MCMC algorithm in BIK.</p>
+<p>The noisy marker coordinates are entered in a IK mechanism object. The true value of <code>sigma</code> is entered as well which is used for initiating the MCMC algorithm in BIK.</p>
 
 </div>
 </div>
@@ -13501,7 +13501,7 @@ ZXY Cardan angles:
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The warnings arise because the determinant of the precision matrix of the normal prior on the quaternion is very small at initialization of the VBIK EM-algorithm.</p>
+<p>The warnings arrise because the determinant of the precision matrix of the normal prior on the quaternion is very small at initialization of the VBIK EM-algorithm.</p>
 
 </div>
 </div>
@@ -13922,7 +13922,7 @@ error BIK_6 (deg) : [0.98733461]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Why-is-the-(absolute)-difference-between-between-$SO(3)$-parameterizations-is-not-a-proper-metric-for-the-estimation-error?">Why is the (absolute) difference between between $SO(3)$ parameterizations is not a proper metric for the estimation error?<a class="anchor-link" href="#Why-is-the-(absolute)-difference-between-between-$SO(3)$-parameterizations-is-not-a-proper-metric-for-the-estimation-error?">&#182;</a></h3><p>Comparing the different IK solutions above to the true rotation, it is clear that the (absolute) difference between the true and estimated representations is not a good error metric. For example, we print here the rotation vector representation of the true rotation, estimated rotation, error rotation, and difference between the true and estimated rotation. The latter two do not match in sign and magnitude. This is shown in the figure below (arrowheads don't touch). The metric from Huynh (2009) calculates the smallest angle between the rotation vectors and is always an appropriate metric.</p>
+<h3 id="Why-the-(absolute)-difference-between-between-$SO(3)$-parameterizations-is-not-a-proper-metric-for-the-estimation-error?">Why the (absolute) difference between between $SO(3)$ parameterizations is not a proper metric for the estimation error?<a class="anchor-link" href="#Why-the-(absolute)-difference-between-between-$SO(3)$-parameterizations-is-not-a-proper-metric-for-the-estimation-error?">&#182;</a></h3><p>Comparing the different IK solutions above to the true rotation, it is clear that the (absolute) difference between the true and estimated representations, is not a good error metric. For example, we print here the rotation vector representation of the true rotation, estimated rotation, error rotation, and difference between the true and estimated rotation. The latter two do not match in sign and magnitude. This is shown in the figure below (arrowheads don't touch). The metric from Huynh (2009) calculates the smallest angle between the rotation vectors and is always a proper metric.</p>
 
 </div>
 </div>
